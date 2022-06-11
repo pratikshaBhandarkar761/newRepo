@@ -1,0 +1,346 @@
+<div onclick="opne_insertin_data_model()" class="insertin_data_model_opener d-flex justify-content-center align-items-center "><span class="material-icons">
+        post_add
+    </span></div>
+<div class="insertin_data_model_contaienr">
+    <div class="insertin_data_model">
+        <button class="insertin_data_model_closer  d-flex justify-content-center align-items-center" onclick="close_insertin_data_model()"><span class="material-icons">
+                cancel
+            </span>
+        </button>
+        <div class="upload_post">
+            <div class="form_validations_container">
+                <ul class="form_validations"></ul>
+            </div>
+            <form action="{{ route('NewsControlCenterAdd') }}" method="POST" enctype="multipart/form-data" id="post_new_news">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <label for="news_title_eng">News Title - English</label><br>
+                        <input placeholder="News Title - English" id="news_title_eng" name="news_title_eng" type="text"> @error('news_title_eng')
+                        <span class="validation_msg">{{ $message }}</span> @enderror
+                        <div id="post_data"></div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label for="news_title_hindi">News Title - हिन्दी</label><br><input placeholder="News Title - हिन्दी" id="news_title_hindi" name="news_title_hindi" type="text">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <select name="category_id" id="category_id">
+                            <option selected hidden disabled>Category</option>
+                            <option value="">All</option>
+                            @foreach ($category as $cat_data)
+                                <option value="{{ $cat_data->id }}">{{ $cat_data->category_name_eng }} -
+                                    {{ $cat_data->category_name_hindi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select name="location_id" id="location_id">
+                            <option selected hidden disabled>Location</option>
+                            <option value="">All</option>
+                            @foreach ($location as $loct_data)
+                                <option value="{{ $loct_data->id }}">{{ $loct_data->location_name_eng }} -
+                                    {{ $loct_data->location_name_hindi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <select name="tag_id " id="tag_id ">
+                            <option selected hidden disabled>Tag</option>
+                            <option value="">All</option>
+                            @foreach ($tag as $tag_data)
+                                <option value="{{ $tag_data->id }}">{{ $tag_data->tag_name_eng }} -
+                                    {{ $tag_data->tag_name_hindi }}</option>
+                            @endforeach
+
+
+                        </select> @error('tag_id')
+                        <span class="validation_msg">{{ $message }}</span> @enderror
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-12">
+                        <label for="summernote1">News Description - English</label><br> {{-- <textarea name="news_desc_eng" class="form-control" name="summernote" id="news_desc_eng"></textarea> --}}
+                        <div id="news_desc_eng_toolbar_container"></div>
+                        <div id="news_desc_eng" style="background-color:#fff;border: 1px solid grey;"></div>
+                        @error('news_desc_eng')
+                        <span class="validation_msg">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <label for="summernote1">News Description - हिन्दी</label><br> {{-- <textarea name="news_desc_hindi" class="form-control" name="summernote" id="news_desc_hindi"></textarea> --}}
+                        <div id="news_desc_hindi_toolbar_container"></div>
+                        <div id="news_desc_hindi" style="background-color:#fff;border: 1px solid grey;"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12"><span>Should Appear On</span>
+                        <hr>
+                    </div>
+                    <div class="posicheckboxes_css  col-md-2 col-5"><label type="" for="breaking_checkbox_news_post" class="position_checkbox_news_post_label"><span class="material-icons-outlined">
+                                topic
+                            </span>Breaking News</label>
+                        <input name="posi_breaking" id="breaking_checkbox_news_post" class="position_checkbox_news_post" type="checkbox">
+                    </div>
+                    <div class="posicheckboxes_css  col-md-2 col-5"><label type="" for="banner_checkbox_news_post" class="position_checkbox_news_post_label"><span class="material-icons">
+                                panorama
+                            </span>Banner</label>
+                        <input name="posi_banner" id="banner_checkbox_news_post" class="position_checkbox_news_post" type="checkbox">
+                    </div>
+                    <div class="posicheckboxes_css  col-md-2 col-5">
+                        <label type="" for="sidebar_checkbox_news_post" class="position_checkbox_news_post_label"><span
+                                class="material-icons">
+                                format_indent_decrease
+                            </span>Side Bar</label>
+                        <input name="posi_banner_sidebar" id="sidebar_checkbox_news_post" class="position_checkbox_news_post" type="checkbox">
+                    </div>
+                    <div class="posicheckboxes_css  col-md-2 col-5">
+                        <label type="" for="recent_checkbox_news_post" class="position_checkbox_news_post_label"><span
+                                class="material-icons">
+                                view_agenda
+                            </span>Recent</label>
+                        <input name="posi_recent" id="recent_checkbox_news_post" class="position_checkbox_news_post" type="checkbox">
+                    </div>
+                    <div class="posicheckboxes_css  col-md-2 col-5">
+                        <label type="" for="weekly_checkbox_news_post" class="position_checkbox_news_post_label"><span
+                                class="material-icons">
+                                view_carousel
+                            </span>Weekly</label>
+                        <input name="posi_weekly" id="weekly_checkbox_news_post" class="position_checkbox_news_post" type="checkbox">
+                    </div>
+                    <div class="posicheckboxes_css  col-md-2 col-5">
+                        <label type="" for="whtsnew_checkbox_news_post" class="position_checkbox_news_post_label"><span
+                                class="material-icons">
+                                style
+                            </span>Whats New</label>
+                        <input name="posi_whats_new" id="whtsnew_checkbox_news_post" class="position_checkbox_news_post" type="checkbox">
+                    </div>
+                </div>
+                <div class="row">
+                    <!--//image-->
+                    <div class="col-md-4 news_post_container">
+                        <div class="new_news_post_img new"></div>
+                        <div class="row">
+                            <div class="col-md-11 col-sm-10 col-10">
+                                <label class="post_file_upload_label d-flex flex-row-reverse new_post img" for="news_img"><span
+                                    class="align-items-center d-flex">Upload File</span>
+                                    <h4 class="get_file_name align-items-center d-flex">No Image Selected</h4>
+                                </label>
+                                <input hidden id="news_img" name="news_img" type="file" accept=".jpg, .jpeg,.png">
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-1">
+                                <button class="btn btn-danger mt-1.5 ml-md-n4 py-md-2"><span class="material-icons">cancel</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <!--//thumbnail-->
+                    <div class="col-md-4 news_post_container">
+                        <div class="new_news_post_img new"></div>
+                        <div class="row">
+                            <div class="col-md-11 col-sm-10 col-10">
+                                <label class="post_file_upload_label d-flex flex-row-reverse new_post img" for="news_img"><span
+                                    class="align-items-center d-flex">Upload File</span>
+                                    <h4 class="get_file_name align-items-center d-flex">No Thumbnail Selected</h4>
+                                </label>
+                                <input hidden id="news_img" name="Thumbnail" type="file" accept=".jpg, .jpeg,.png">
+                            </div>
+                            <div class="col-md-1 col-sm-1 col-1">
+                                <button class="btn btn-danger mt-1.5 ml-md-n4 py-md-2"><span class="material-icons">
+                cancel
+            </span></button>
+                            </div>
+                        </div>
+
+                    </div>
+                    <!--//video-->
+                    <div class="col-md-4 row news_post_container">
+                        <div class="new_news_post_video pt-1.5 align-items-center">
+                            <video controls class="video_preview new" src="" style="height:300px !important"></video>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-11 col-sm-10 col-10">
+                                <label class="post_file_upload_label new d-flex video flex-row-reverse new_post" for="news_video"><span class="align-items-center d-flex">Upload File</span>
+                                    
+                                    <h4 class="get_file_name new video align-items-center d-flex">No Video Selected</h4>
+                                    <input hidden id="news_video" name="news_video" type="file" accept=".mp4,.webm">
+                                </label>
+                            </div>
+                            <div class="col-md-1 col-sm-2 col-2">
+                                <button class="btn btn-danger mt-1.5 ml-md-n4 py-md-2"><span class="material-icons">cancel</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12 d-flex align-items-end">
+                        @csrf
+                        <button class="form_submit_btn" type="submit"><span class="material-icons">
+                            post_add
+                        </span>POST</button>
+                    </div>
+                    <div class="">
+                        <input hidden placeholder="Writer Name" id="writer_name" class="writer_name" name="writer_name" type="text"> @error('writer_name')
+                        <span class="validation_msg">{{ $message }}</span> @enderror @if (Auth::guard('admin')->check())
+                        <input name="posted_by_user_id" id="posted_by_user_id" hidden value="{{ Auth::guard('admin')->user()->id }}" type="text"> @elseif(Auth::guard('publisher')->check())
+                        <input name="posted_by_user_id" id="posted_by_user_id" hidden value="{{ Auth::guard('publisher')->user()->id }}" type="text"> @endif
+
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="form_submit_progress_bar_contaniner">
+    <div class="inner_container">
+        <div class="loader">
+
+        </div>
+        <div class="progress_count">
+
+        </div>
+    </div>
+</div>
+
+<button class="update_data_model_closer d-flex justify-content-center align-items-center" onclick="close_update_data_model()"><span class="material-icons">
+        cancel
+    </span>
+</button>
+<div class="update_more">
+    <div class="upload_post">
+        <div class="form_validations_container">
+            <ul class="form_validations"></ul>
+        </div>
+        <form action="{{ route('NewsControlCenterAdd') }}" method="POST" enctype="multipart/form-data" id="update_posted_news">
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="news_title_eng">News Title - English</label><br>
+                    <input placeholder="News Title - English" id="news_title_eng" name="news_title_eng" type="text"> @error('news_title_eng')
+                    <span class="validation_msg">{{ $message }}</span> @enderror
+                    <div id="post_data"></div>
+                </div>
+                <div class="col-lg-6">
+                    <label for="news_title_hindi">News Title - हिन्दी</label><br><input placeholder="News Title - हिन्दी" id="news_title_hindi" name="news_title_hindi" type="text">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <select name="category_id" id="category_id">
+                        <option value="">All Category</option>
+                        @foreach ($category as $cat_data)
+                            <option value="{{ $cat_data->id }}">{{ $cat_data->category_name_eng }} -
+                                {{ $cat_data->category_name_hindi }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select name="location_id" id="location_id">
+                        <option value="">All Location</option>
+                        @foreach ($location as $loct_data)
+                            <option value="{{ $loct_data->id }}">{{ $loct_data->location_name_eng }} -
+                                {{ $loct_data->location_name_hindi }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select name="tag_id " id="tag_id ">
+                        <option value="">Tags</option>
+                        @foreach ($tag as $tag_data)
+                            <option value="{{ $tag_data->id }}">{{ $tag_data->tag_name_eng }} -
+                                {{ $tag_data->tag_name_hindi }}</option>
+                        @endforeach
+
+
+                    </select> @error('tag_id')
+                    <span class="validation_msg">{{ $message }}</span> @enderror
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <label for="news_desc_eng_update">News Description - English</label><br> {{-- <textarea name="news_desc_eng" class="form-control" name="summernote" id="news_desc_eng_update"></textarea> --}}
+                    <div id="news_desc_eng_update_toolbar_container"></div>
+                    <div id="news_desc_eng_update" style="background-color:#fff;border: 1px solid grey;"></div>
+                    @error('news_desc_eng')
+                    <span class="validation_msg">{{ $message }}</span> @enderror
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    <label for="news_desc_hindi_update">News Description - हिन्दी</label><br> {{-- <textarea name="news_desc_hindi" class="form-control" name="summernote" id="news_desc_hindi_update"></textarea> --}}
+                    <div id="news_desc_hindi_update_toolbar_container"></div>
+                    <div id="news_desc_hindi_update" style="background-color:#fff;border: 1px solid grey;"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12"><span>Should Appear On</span>
+                    <hr>
+                </div>
+                <div class="posicheckboxes_css  col-md-2 col-5"><label type="" for="update_breaking_checkbox_news_post" class="update_position_checkbox_news_post_label"><span class="material-icons-outlined">
+                            topic
+                        </span>Breaking News</label>
+                    <input name="posi_breaking" id="update_breaking_checkbox_news_post" class="update_position_checkbox_news_post" type="checkbox">
+                </div>
+                <div class="posicheckboxes_css  col-md-2 col-5"><label type="" for="update_banner_checkbox_news_post" class="update_position_checkbox_news_post_label"><span class="material-icons">
+                            panorama
+                        </span>Banner</label>
+                    <input name="posi_banner" id="update_banner_checkbox_news_post" class="update_position_checkbox_news_post" type="checkbox">
+                </div>
+                <div class="posicheckboxes_css  col-md-2 col-5">
+                    <label type="" for="update_sidebar_checkbox_news_post" class="update_position_checkbox_news_post_label"><span class="material-icons">
+                            format_indent_decrease
+                        </span>Side Bar</label>
+                    <input name="posi_banner_sidebar" id="update_sidebar_checkbox_news_post" class="update_position_checkbox_news_post" type="checkbox">
+                </div>
+                <div class="posicheckboxes_css  col-md-2 col-5">
+                    <label type="" for="update_recent_checkbox_news_post" class="update_position_checkbox_news_post_label"><span class="material-icons">
+                            view_agenda
+                        </span>Recent</label>
+                    <input name="posi_recent" id="update_recent_checkbox_news_post" class="update_position_checkbox_news_post" type="checkbox">
+                </div>
+                <div class="posicheckboxes_css  col-md-2 col-5">
+                    <label type="" for="update_weekly_checkbox_news_post" class="update_position_checkbox_news_post_label"><span class="material-icons">
+                            view_carousel
+                        </span>Weekly</label>
+                    <input name="posi_weekly" id="update_weekly_checkbox_news_post" class="update_position_checkbox_news_post" type="checkbox">
+                </div>
+                <div class="posicheckboxes_css  col-md-2 col-5">
+                    <label type="" for="update_whtsnew_checkbox_news_post" class="update_position_checkbox_news_post_label"><span class="material-icons">
+                            style
+                        </span>Whats New</label>
+                    <input name="posi_whats_new" id="update_whtsnew_checkbox_news_post" class="update_position_checkbox_news_post" type="checkbox">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6  news_post_container">
+                    <div class="new_news_post_img update"></div>
+                    <label class="post_file_upload_label d-flex flex-row-reverse update img" for="update_news_img"><span class="align-items-center d-flex">Upload File</span>
+                        <h4 class="get_file_name align-items-center d-flex">No Image Selected</h4>
+                    </label>
+                    <input hidden id="update_news_img" name="news_img" type="file" accept=".jpg, .jpeg,.png">
+                </div>
+                <div class="col-md-6 row news_post_container">
+                    <div class="col-12">
+                        <div class="new_news_post_video update_news_video d-flex justify-content-center align-items-center py-2">
+                            <video controls class="video_preview update" src=""></video>
+                        </div>
+                        <label class="post_file_upload_label d-flex video flex-row-reverse new_post update" for="update_news_video"><span class="align-items-center d-flex">Upload File</span>
+                            <h4 class="get_file_name video align-items-center d-flex update">No Video Selected</h4>
+                        </label>
+                        <input hidden id="update_news_video" name="news_video" type="file" accept=".mp4,.webm">
+                    </div>
+                    <div class="col-md-12 d-flex align-items-end">
+                        @csrf
+                        <button class="form_submit_btn" type="submit"><span class="material-icons">
+                                post_add
+                            </span>UPDATE</button>
+                    </div>
+                </div>
+
+                <div class="">
+                    <input hidden placeholder="Writer Name" id="writer_name" class="writer_name" name="writer_name" type="text"> @error('writer_name')
+                    <span class="validation_msg">{{ $message }}</span> @enderror
+                    <input hidden id="id" class="id" name="id" type="text"> @if (Auth::guard('admin')->check())
+                    <input name="posted_by_user_id" id="posted_by_user_id" hidden value="{{ Auth::guard('admin')->user()->id }}" type="text"> @elseif(Auth::guard('publisher')->check())
+                    <input name="posted_by_user_id" id="posted_by_user_id" hidden value="{{ Auth::guard('publisher')->user()->id }}" type="text"> @endif
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
